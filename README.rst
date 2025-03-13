@@ -6,6 +6,30 @@
 
 esma_data_py
 ======================================================================================================
+
+.. image:: https://github.com/hadrilec/esma_data_py/actions/workflows/pkgTests.yml/badge.svg
+   :target: https://github.com/hadrilec/esma_data_py/actions
+   :alt: Build Status
+
+.. image:: https://app.codecov.io/gh/hadrilec/esma_data_py/branch/master/graph/badge.svg?token=TO96FMWRHK
+   :target: https://codecov.io/gh/hadrilec/esma_data_py?branch=master
+   :alt: Codecov test coverage
+
+.. image:: https://readthedocs.org/projects/esma-data-py/badge/?version=latest
+   :target: https://pynsee.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+.. image:: https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue.svg
+   :target: https://www.python.org/
+   :alt: Python versions
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://pypi.org/project/black/
+   :alt: Code formatting
+
+.. image:: https://img.shields.io/badge/license-EUPL-blue
+   :target: https://img.shields.io/badge/license-EUPL-blue
+   :alt: License
    
 :raw-html:`<br />`
    
@@ -22,13 +46,15 @@ Key features
 * **SSR Data** : You can retreive SSR data with the *load_ssr_exempted_shares* method, optionally filtering the results to include only records relevant to the current date.
 
 Getting Started
--------
+---------------
 
-To get started with *esma_data_py*, you can install the package via pip using the following GitHub link:
+To get started with *esma_data_py*, you can install the package directly from GitHub:
 
-.. code-block:: python
+.. code-block:: bash
 
+   # Install the package directly from the GitHub repository
    pip install git+https://github.com/hadrilec/esma_data_py.git#egg=esma_data_py
+
 
 Documentation
 -------

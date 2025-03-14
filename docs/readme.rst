@@ -28,7 +28,7 @@ To get started with *esma_data_py*, you can install the package via pip using th
 
 .. code-block:: python
 
-   pip install git+https://github.com/hadrilec/esma_data_py.git#egg=esma_data_py
+   pip install git+https://github.com/European-Securities-Markets-Authority/esma_data_py.git
 
 Documentation
 -------

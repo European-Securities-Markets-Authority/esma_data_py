@@ -74,6 +74,7 @@ class EsmaDataLoader:
             datasets = [u.Dataset(dataset).value for dataset in datasets]
         except ValueError as ve:
             self.__logger.error(f'Error: {ve}') 
+            return
 
         files_dfs = []
         self.__logger.info(f'Loading {len(datasets)} datasets')
@@ -148,7 +149,7 @@ class EsmaDataLoader:
 
         try:
             cfi = u.Cfi(cfi).value
-        except Exception as e:
+        except ValueError as e:
             self.__logger.error(f'Error: {e}')
             return
 
@@ -157,12 +158,6 @@ class EsmaDataLoader:
         else:
             mifid_file_list = self.__get_latest_fitrs_files(file_type=file_type, eqt=eqt, cfi=cfi)
         
-        if isin:
-            self.__logger.info(f'Filtering records for the given ISINs')
-            if len(mifid_file_list_isin := mifid_file_list[mifid_file_list["Id"].isin(isin)]) > 0:
-                mifid_file_list = mifid_file_list_isin
-            else:
-                self.__logger.warning(f'No record found for the given ISINs, keeping default')
 
         list_urls = mifid_file_list["download_link"].unique()
 
@@ -176,7 +171,17 @@ class EsmaDataLoader:
         
         for url in list_urls:
             self.__logger.info(f'Downloading and parsing {url}')
-            list_dwndl_dfs.append(self.__utils.download_and_parse_file(url, save=save_locally, update=update))
+            dwnld_df = self.__utils.download_and_parse_file(url, save=save_locally, update=update)
+            
+            if isin:
+                self.__logger.info(f'Filtering records for the given ISINs')
+                if len(dwnld_df_isin := dwnld_df[dwnld_df["Id"].isin(isin)]) > 0:
+                    dwnld_df = dwnld_df_isin
+                else:
+                    self.__logger.warning(f'No record found for the given ISINs, keeping default')
+                    dwnld_df = dwnld_df
+            
+            list_dwndl_dfs.append(dwnld_df)
             
         self.__logger.info('Process done!')
         return pd.concat(list_dwndl_dfs)

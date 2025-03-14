@@ -322,6 +322,8 @@ class Utils:
         root_list = list(root.iter('NonEqtyTrnsprncyData'))
         if not root_list:
             root_list = list(root.iter('EqtyTrnsprncyData'))
+        if not root_list:
+            root_list = list(root.iter('VolCapRslt'))
 
         list_dicts = []
         for child in tqdm(root_list, desc='Parsing file ... ', position=0, leave=True):

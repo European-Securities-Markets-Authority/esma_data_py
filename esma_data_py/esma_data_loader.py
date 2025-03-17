@@ -113,6 +113,7 @@ class EsmaDataLoader:
             list_of_dicts = [dd["_source"] for dd in root["hits"]["hits"]]
         else:
             self.__logger.error(f'Request failed, status code {request.status_code}')
+            return
 
         files = pd.DataFrame.from_records(list_of_dicts)
         self.__logger.info(f'Process done!')

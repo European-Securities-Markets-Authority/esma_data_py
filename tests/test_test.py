@@ -25,6 +25,11 @@ class EdlTests(unittest.TestCase):
             test = edl.load_fca_firds_file_list()   
             self.assertTrue(isinstance(test, pd.DataFrame))
 
+        def test_load_mifid(self):
+            edl = EsmaDataLoader()
+            test = edl.load_mifid_file_list()
+            self.assertTrue(isinstance(test, pd.DataFrame))
+
         def test_download_file(self):
             u = Utils()
             _test = u.download_and_parse_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip', save=True)

@@ -1,15 +1,10 @@
 # esma_data_py
 
 [![Build Status](https://github.com/hadrilec/esma_data_py/actions/workflows/pkgTests.yml/badge.svg)](https://github.com/hadrilec/esma_data_py/actions)
-
 [![Codecov test coverage](https://app.codecov.io/gh/hadrilec/esma_data_py/branch/master/graph/badge.svg?token=TO96FMWRHK)](https://codecov.io/gh/hadrilec/esma_data_py?branch=master)
-
 [![Documentation Status](https://readthedocs.org/projects/esma-data-py/badge/?version=latest)](https://pynsee.readthedocs.io/en/latest/?badge=latest)
-
 [![Python versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue.svg)](https://www.python.org/)
-
 [![Code formatting](https://img.shields.io/badge/code%20style-black-000000.svg)](https://pypi.org/project/black/)
-
 ![License](https://img.shields.io/badge/license-EUPL-blue)
 
 <br />

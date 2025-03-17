@@ -1,7 +1,7 @@
 # esma_data_py
 
-![Build Status](https://github.com/hadrilec/esma_data_py/actions/workflows/pkgTests.yml/badge.svg)
-[Build Status Link](https://github.com/hadrilec/esma_data_py/actions)
+[[Build Status](https://github.com/hadrilec/esma_data_py/actions/workflows/pkgTests.yml/badge.svg)]
+(https://github.com/hadrilec/esma_data_py/actions)
 
 ![Codecov test coverage](https://app.codecov.io/gh/hadrilec/esma_data_py/branch/master/graph/badge.svg?token=TO96FMWRHK)
 [Codecov Coverage Link](https://codecov.io/gh/hadrilec/esma_data_py?branch=master)

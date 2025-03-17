@@ -7,8 +7,6 @@
 [![Code formatting](https://img.shields.io/badge/code%20style-black-000000.svg)](https://pypi.org/project/black/)
 ![License](https://img.shields.io/badge/license-EUPL-blue)
 
-<br />
-
 The *esma_data_py* package provides a robust toolkit designed to streamline the process of searching for and downloading data from the ESMA (European Securities and Markets Authority) register. At the core of this package is *EsmaDataLoader*, an engine that simplifies the process of accessing and downloading regulatory data. This Python package facilitates easy access to reliable and up-to-date information, supporting financial analysts, researchers, and developers who need data from ESMA.
 
 This package is a contribution to reproducible research and public data transparency.

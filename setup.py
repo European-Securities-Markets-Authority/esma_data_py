@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 15 10:36:06 2024
-
-@author: gdegl'innocenti
-"""
 
 import setuptools
 
@@ -13,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name = "esma_data_py",
     version="0.0.1",
-    author = "Hadrien Leclerc",
+    author = "Hadrien Leclerc, Yassine Aoukaili",
     author_email="hadrien.leclerc@esma.europa.eu",
     description = "Tools to easily download ESMA financial data",
     long_description=long_description,

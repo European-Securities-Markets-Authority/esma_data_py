@@ -61,6 +61,7 @@ extensions = [
 # }
 
 nbsphinx_thumbnails = {
+     'examples/Flow_Chart_For_Equity_Transparency_Calculations': '_static/Flow_Chart_For_Equity_Transparency_Calculations.png',
 }
 
 # 'm2r2',

@@ -1,71 +1,56 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 17 15:16:30 2024
-
-@author: gdegl'innocenti
-"""
-
 import unittest
 import os
 import pandas as pd
 import sys
 import functools
 
-from esma_data_py.ssr.get_ssr_exempted_shares import get_ssr_exempted_shares # Theoretically complete
-from esma_data_py.mifid.get_mifid_file_list import get_mifid_file_list # Theoretically complete
-from esma_data_py.mifid.download_file import download_file, download_one_file, _download_one_file # To check
-from esma_data_py.mifid.get_fca_firds_file_list import get_fca_firds_file_list # Theoreticaly complete
-from esma_data_py.mifid.get_last_full_files import get_last_full_files
+from esma_data_py.esma_data_loader import EsmaDataLoader
+from esma_data_py.utils.utils import Utils
 
-class MyTests(unittest.TestCase):
+
+class EdlTests(unittest.TestCase):
 
     version = (sys.version_info[0] == 3) & (sys.version_info[1] == 10)
     version = True
 
     if version == True:
     
-        def test_get_last_full_files(self):
-            test  = get_ssr_exempted_shares()
+        def test_load_latest_files(self):
+            edl = EsmaDataLoader()
+            test  = edl.load_latest_files()
             self.assertTrue(isinstance(test, pd.DataFrame))
-        
-        # THIS SHOULD BE RUNNED BY get_last_full_files
-        # def test_get_mifid_file_list_1(self):
-        #         test = get_mifid_file_list('firds')
-        #         self.assertTrue(isinstance(test, pd.DataFrame))
 
-        def test_get_mifid_file_list_2(self):    
-                test = get_mifid_file_list('dvcap')
-                self.assertTrue(isinstance(test, pd.DataFrame))  
-    
+        def test_load_fca(self):
+            edl = EsmaDataLoader()
+            test = edl.load_fca_firds_file_list()   
+            self.assertTrue(isinstance(test, pd.DataFrame))
+
+        def test_load_mifid(self):
+            edl = EsmaDataLoader()
+            test = edl.load_mifid_file_list()
+            self.assertTrue(isinstance(test, pd.DataFrame))
+
         def test_download_file(self):
-            test = download_file("http://fitrs.esma.europa.eu/fitrs/FULNCR_20240622_D_2of6.zip", update = True)
+            u = Utils()
+            _test = u.download_and_parse_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip', save=True)
+            cached_test = u.download_and_parse_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip')
+            self.assertTrue(isinstance(cached_test, pd.DataFrame))
+
+        def test_wrong_cfi(self):
+            edl = EsmaDataLoader()
+            test = edl.load_latest_files(cfi='TEST')
+            self.assertTrue(test is None)
+
+        def test_wrong_dataset(self):
+            edl = EsmaDataLoader()
+            test = edl.load_mifid_file_list(datasets=['TEST'])
+            self.assertTrue(test is None)
+
+        def test_latest_files_wrong_isin(self):
+            edl = EsmaDataLoader()
+            test = edl.load_latest_files(isin=['TEST'])
             self.assertTrue(isinstance(test, pd.DataFrame))
-        
-        def test_download_one_file(self):
-                test = download_one_file("http://fitrs.esma.europa.eu/fitrs/FULNCR_20240622_D_2of6.zip", update=True)
-                self.assertTrue(isinstance(test, pd.DataFrame))
-        
-        def test_get_fca_firds_file_list_1(self):
-                test = get_fca_firds_file_list('firds')
-                self.assertTrue(isinstance(test, pd.DataFrame))
-            
-        def test_get_fca_firds_file_list_2(self):
-                test = get_fca_firds_file_list('dvcap')
-                self.assertTrue(isinstance(test, pd.DataFrame))
-            
-        # def test_get_last_full_files_1(self):
-        #         test = get_last_full_files(eqt = True, cfi = 'C')
-        #         self.assertTrue(isinstance(test, pd.DataFrame))
-            
-        # def test_get_last_full_files_2(self):
-        #         test = get_last_full_files(eqt = False, cfi = None)
-        #         self.assertTrue(isinstance(test, pd.DataFrame)) 
-                
-        # def test_get_last_full_files_3(self):
-        #         self.assertRaises(ValueError, get_last_full_files, cfi='X')
 
-
-          
                         
 if __name__ == '__main__':
     unittest.main()

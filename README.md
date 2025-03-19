@@ -1,6 +1,6 @@
 # esma_data_py
 
-[![Build Status](https://github.com/hadrilec/esma_data_py/actions/workflows/pkgTests.yml/badge.svg)](https://github.com/hadrilec/esma_data_py/actions)
+[![Build Status](https://github.com/European-Securities-Markets-Authority/esma_data_py/actions/workflows/pkgTests.yml/badge.svg)](https://github.com/European-Securities-Markets-Authority/esma_data_py/actions)
 [![codecov](https://codecov.io/gh/European-Securities-Markets-Authority/esma_data_py/graph/badge.svg?token=N9EALIASBZ)](https://codecov.io/gh/European-Securities-Markets-Authority/esma_data_py)
 [![Documentation Status](https://readthedocs.org/projects/esma-data-py/badge/?version=latest)](https://pynsee.readthedocs.io/en/latest/?badge=latest)
 [![Python versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue.svg)](https://www.python.org/)

@@ -96,7 +96,6 @@ class Utils:
 
         return main_folder
 
-    @staticmethod
     def save_df(obj=pd.DataFrame, print_cached_data=True, folder="data"):
 
         """

@@ -66,8 +66,8 @@ class EsmaDataLoader:
         pd.DataFrame: A DataFrame aggregating the records from all specified databases, containing file details.
 
         Examples:
-        >>> # Fetch MIFID files from 'fitrs' and 'firds' databases from January 1, 2017 to the current date
-        >>> files_df = EsmaDataLoader().load_mifid_file_list()
+            >>> # Fetch MIFID files from 'fitrs' and 'firds' databases from January 1, 2017 to the current date
+            >>> files_df = EsmaDataLoader().load_mifid_file_list()
         """
 
         try:
@@ -97,7 +97,7 @@ class EsmaDataLoader:
         pd.DataFrame: A DataFrame containing the records of files fetched based on the specified filters.
 
         Examples:
-        >>> firds_files = EsmaDataLoader().load_fca_firds_file_list()
+            >>> firds_files = EsmaDataLoader().load_fca_firds_file_list()
         """
 
         query_fca_firds = self.query_url.fca_firds.format(creation_date_from=self.creation_date_from, 

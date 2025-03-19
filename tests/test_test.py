@@ -51,6 +51,16 @@ class EdlTests(unittest.TestCase):
             test = edl.load_latest_files(isin=['TEST'])
             self.assertTrue(isinstance(test, pd.DataFrame))
 
+        def test_vcap_latest_files(self):
+            edl = EsmaDataLoader()
+            test = edl.load_latest_files(vcap=True, save_locally=True)
+            self.assertTrue(isinstance(test, pd.DataFrame))
+
+        def test_ssr_files(self):
+            edl = EsmaDataLoader()
+            test = edl.load_ssr_exempted_shares(today=True)
+            self.assertTrue(isinstance(test, pd.DataFrame))
+
                         
 if __name__ == '__main__':
     unittest.main()

@@ -325,7 +325,7 @@ class Utils:
             list_dicts.append(Utils.process_tags(child))
 
         df = pd.DataFrame.from_records(list_dicts)
-        delivery_df = df.map(lambda x: x[0] if isinstance(x, list) else x)
+        delivery_df = df.applymap(lambda x: x[0] if isinstance(x, list) else x)
         return delivery_df
     
     @staticmethod

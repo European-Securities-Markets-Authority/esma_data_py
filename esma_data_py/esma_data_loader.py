@@ -127,18 +127,18 @@ class EsmaDataLoader:
                           isin: Optional[List[str]] = [], 
                           cfi: str = 'E', 
                           eqt=True,
-                          save_locally: bool = False,
                           update: bool = False):
 
         """
         Retrieves the latest full files from the 'fitrs' dataset, filtered by instrument type and optionally by CFI codes and ISINs.
 
         Args:
-            isin (str or list of str, optional): ISIN(s) to filter the files. If provided, only files containing these ISINs are included.
-
-            cfi (str or list of str, optional): CFI code(s) to further filter the files. Must be one of 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'O', 'R', 'S'.
-
-            eqt (bool): Determines if only equity instruments ('True') or non-equity instruments ('False') should be considered. Defaults to True.
+            file_type (str): Type of the file to retrieve (e.g., 'Full'). Defaults to 'Full'.
+            vcap (bool): A flag to filter by VCAP (default is False).
+            isin (list of str, optional): A list of ISIN(s) to filter the files. If provided, only files containing these ISINs are included.
+            cfi (str): CFI code(s) to filter the files. Must be one of 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'O', 'R', 'S'. Defaults to 'E'.
+            eqt (bool): Whether to consider only equity instruments (`True`) or non-equity instruments (`False`). Defaults to `True`.
+            update (bool): Whether to force re-downloading the files. If `True`, it always fetches the latest version. Defaults to `False`.
 
         Returns:
             pd.DataFrame: A DataFrame containing the concatenated data from all files that meet the specified criteria.
@@ -165,14 +165,9 @@ class EsmaDataLoader:
         list_dwndl_dfs = []
         self.__logger.info(f'Downloading {len(list_urls)} files')
         
-        if save_locally:
-            self.__logger.info(f'Saving files locally')
-        else:
-            self.__logger.info(f'Files will not be saved locally, flag the parameter save_locally=True to save them') 
-        
         for url in list_urls:
             self.__logger.info(f'Downloading and parsing {url}')
-            dwnld_df = self.__utils.download_and_parse_file(url, save=save_locally, update=update)
+            dwnld_df = self.__utils.download_and_parse_file(url, update=update)
             
             if isin:
                 self.__logger.info(f'Filtering records for the given ISINs')
@@ -248,7 +243,30 @@ class EsmaDataLoader:
         final_data = pd.concat([duplicates, non_duplicates]).reset_index(drop=True)
         self.__logger.info(f'Process done!')
         
-        return final_data       
+        return final_data 
+
+
+    def download_file(self, url: str, update: bool = False) -> pd.DataFrame:
+        
+        """
+        Downloads and parses a file into a DataFrame.
+        
+        If `update` is `True`, it forces a re-download. If `False`, cached data is not used.
+        
+        Args:
+            url (str): The URL of the file to download.
+            update (bool): Whether to force a re-download (default is `False`).
+        
+        Returns:
+            pd.DataFrame: The parsed data from the file.
+        
+        Examples:
+            >>> edl = EsmaDataLoader()
+            >>> list_files = edl.load_mifid_file_list()``
+            >>> edl.download_and_parse_single_file('https://dvcap.esma.europa.eu/dvcap/DVCRES_20240508.zip')
+        """
+
+        return self.__utils.download_and_parse_file(url=url, update=update)
 
 
     def __get_files_single_df_mifid(self, dataset: str):

@@ -19,3 +19,9 @@ Get SSR (Short Selling Regulation) exempted shares data
 
 .. autofunction:: esma_data_py.EsmaDataLoader.load_ssr_exempted_shares
 
+Get data from specific link
+------------------------
+
+.. autofunction:: esma_data_py.EsmaDataLoader.download_file
+
+

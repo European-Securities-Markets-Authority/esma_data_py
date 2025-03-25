@@ -122,28 +122,25 @@ class Utils:
                 logger = Utils.set_logger('EsmaDataUtils')
                 data_folder = Utils._create_folder(folder=folder)
 
-                non_update_save_args = [str(value) for key, value in kwargs.items() if key not in ["update", "save"]]
+                non_update_save_args = [str(value) for key, value in kwargs.items() if key not in ["update"]]
                 string_file_arg = non_update_save_args + [func.__name__] + [str(arg) for arg in args]
 
                 file_name = os.path.join(data_folder, Utils._hash("".join(string_file_arg)) + ".csv")
 
                 update = kwargs.get("update", False)
-                save = kwargs.get("save", False)
                 
                 if not os.path.exists(file_name) or update:
-                    if save:
-                        df = func(*args, **kwargs)
-                        try:
-                            df.to_pickle(file_name)
-                            logger.info(f"Data saved: {file_name}")
-                        except Exception as e:
-                            warnings.warn(f"Error saving file: {file_name}\n{str(e)}")
-                            logger.error(f"Error, file not saved: {file_name}\n{df}")
-                            logger.error(f"Type of df: {type(df)}")
+                    df = func(*args, **kwargs)
+                    try:
+                        df.to_pickle(file_name)
+                        logger.info(f"Data saved: {file_name}")
+                    except Exception as e:
+                        warnings.warn(f"Error saving file: {file_name}\n{str(e)}")
+                        logger.error(f"Error, file not saved: {file_name}\n{df}")
+                        logger.error(f"Type of df: {type(df)}")
 
-                        df = obj(df)
-                    else:
-                        df = func(*args, **kwargs)
+                    df = obj(df)
+
                 else:
                     try:
                         df = pd.read_pickle(file_name)
@@ -279,7 +276,7 @@ class Utils:
 
     @staticmethod
     @save_df()
-    def download_and_parse_file(url: str, update: bool = False, save: bool = False) -> pd.DataFrame:
+    def download_and_parse_file(url: str, update: bool = False) -> pd.DataFrame:
         
         """
         Download a file from a URL, extract its contents, and parse it into a DataFrame.
@@ -287,7 +284,6 @@ class Utils:
         Args:
             url (str): The URL to download the file from.
             update (bool): Whether to force an update of the cached data. Defaults to False.
-            save (bool): Whether to save the parsed DataFrame. Defaults to False.
 
         Returns:
             pd.DataFrame: The parsed DataFrame.
@@ -329,7 +325,7 @@ class Utils:
             list_dicts.append(Utils.process_tags(child))
 
         df = pd.DataFrame.from_records(list_dicts)
-        delivery_df = df.applymap(lambda x: x[0] if isinstance(x, list) else x)
+        delivery_df = df.map(lambda x: x[0] if isinstance(x, list) else x)
         return delivery_df
     
     @staticmethod

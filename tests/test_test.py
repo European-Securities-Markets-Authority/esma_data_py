@@ -14,53 +14,47 @@ class EdlTests(unittest.TestCase):
     version = True
 
     if version == True:
+
+        def setUp(self):
+            self.edl= EsmaDataLoader()
     
         def test_load_latest_files(self):
-            edl = EsmaDataLoader()
-            test  = edl.load_latest_files()
+            test  = self.edl.load_latest_files()
             self.assertTrue(isinstance(test, pd.DataFrame))
 
         def test_load_fca(self):
-            edl = EsmaDataLoader()
-            test = edl.load_fca_firds_file_list()   
+            test = self.edl.load_fca_firds_file_list()   
             self.assertTrue(isinstance(test, pd.DataFrame))
 
         def test_load_mifid(self):
-            edl = EsmaDataLoader()
-            test = edl.load_mifid_file_list()
+            test = self.edl.load_mifid_file_list()
             self.assertTrue(isinstance(test, pd.DataFrame))
 
         def test_download_file(self):
-            u = Utils()
-            _test = u.download_and_parse_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip', save=True)
-            cached_test = u.download_and_parse_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip')
+            _test = self.edl.download_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip')
+            cached_test = self.edl.download_file('https://fitrs.esma.europa.eu/fitrs/FULECR_20250308_E_1of1.zip', update=True)
             self.assertTrue(isinstance(cached_test, pd.DataFrame))
 
         def test_wrong_cfi(self):
-            edl = EsmaDataLoader()
-            test = edl.load_latest_files(cfi='TEST')
+            test = self.edl.load_latest_files(cfi='TEST')
             self.assertTrue(test is None)
 
         def test_wrong_dataset(self):
-            edl = EsmaDataLoader()
-            test = edl.load_mifid_file_list(datasets=['TEST'])
+            test = self.edl.load_mifid_file_list(datasets=['TEST'])
             self.assertTrue(test is None)
 
         def test_latest_files_wrong_isin(self):
-            edl = EsmaDataLoader()
-            test = edl.load_latest_files(isin=['TEST'])
+            test = self.edl.load_latest_files(isin=['TEST'])
             self.assertTrue(isinstance(test, pd.DataFrame))
 
         def test_vcap_latest_files(self):
-            edl = EsmaDataLoader()
-            test = edl.load_latest_files(vcap=True, save_locally=True)
+            test = self.edl.load_latest_files(vcap=True)
             self.assertTrue(isinstance(test, pd.DataFrame))
 
         def test_ssr_files(self):
-            edl = EsmaDataLoader()
-            test = edl.load_ssr_exempted_shares(today=True)
+            test = self.edl.load_ssr_exempted_shares(today=True)
             self.assertTrue(isinstance(test, pd.DataFrame))
 
                         
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(argv=[''], exit=False)

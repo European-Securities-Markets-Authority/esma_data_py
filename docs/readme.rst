@@ -30,6 +30,24 @@ To get started with *esma_data_py*, you can install the package via pip using th
 
    pip install git+https://github.com/European-Securities-Markets-Authority/esma_data_py.git
 
+Example
+-------
+.. code-block:: python
+
+   from  esma_data_py import EsmaDataLoader
+
+   # instantiate edl
+   edl = EsmaDataLoader()
+   
+   # load available mifid file list
+   list_files = edl.load_mifid_file_list()
+   
+   # get preferred link 
+   link = list_files.iloc[0].download_link
+   
+   # download data
+   df = edl.download_file('https://dvcap.esma.europa.eu/dvcap/DVCRES_20240508.zip')
+
 Documentation
 -------
 

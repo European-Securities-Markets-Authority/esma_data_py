@@ -43,7 +43,7 @@ list_files = edl.load_mifid_file_list()
 link = list_files.iloc[0].download_link
 
 # download data
-df = edl.download_file('https://dvcap.esma.europa.eu/dvcap/DVCRES_20240508.zip')
+df = edl.download_file(link)
 ```
 
 ## Documentation

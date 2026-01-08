@@ -305,8 +305,9 @@ class Utils:
 
             with open(file_dwn, mode="wb") as file:
                 file.write(r.content)
-                with zipfile.ZipFile(file_dwn, "r") as zip_ref:
-                    zip_ref.extractall(dataDir)
+            
+            with zipfile.ZipFile(file_dwn, "r") as zip_ref:
+                zip_ref.extractall(dataDir)
 
             file_xml = [dataDir + "/" + f for f in os.listdir(dataDir) if ".xml" in f][0]
 

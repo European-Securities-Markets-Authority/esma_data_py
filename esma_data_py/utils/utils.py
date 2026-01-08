@@ -319,7 +319,13 @@ class Utils:
             root_list = list(root.iter('EqtyTrnsprncyData'))
         if not root_list:
             root_list = list(root.iter('VolCapRslt'))
-
+        if not root_list:
+            root_list = list(root.iter('CxlData'))
+        if not root_list:
+            root_list = list(root.iter('ModfdRcrd'))
+        if not root_list:
+            root_list = list(root.iter('RefData'))
+        
         list_dicts = []
         for child in tqdm(root_list, desc='Parsing file ... ', position=0, leave=True):
             list_dicts.append(Utils.process_tags(child))

@@ -224,7 +224,6 @@ class Utils:
         """
 
         mini_tags = defaultdict(list)
-        list_additional_vals = [deque(range(2,101)) for _ in range(15)]
         mini_tags_list_map = defaultdict(int)
 
         for i in child.iter():
@@ -232,11 +231,8 @@ class Utils:
                 if i.tag not in mini_tags:
                     mini_tags[i.tag].append(i.text)
                 else:
-                    if i.tag not in mini_tags_list_map:
-                        mini_tags_list_map[i.tag] = len(mini_tags_list_map)
-
-                    key_list_map = mini_tags_list_map[i.tag]
-                    key = '_'.join([i.tag, str(list_additional_vals[key_list_map].popleft())])
+                    mini_tags_list_map[i.tag] += 1
+                    key = '_'.join([i.tag, str(mini_tags_list_map[i.tag] + 1)])
                     mini_tags[key].append(i.text)
 
         return mini_tags

@@ -384,6 +384,7 @@ class QueryUrl:
     ssr: str = ('https://registers.esma.europa.eu/solr/esma_registers_mifid_shsexs/select?'
                 'q=({{!parent%20which=%27type_s:parent%27}})&wt=json&indent=true&rows=150000&fq=(shs_countryCode:{country})')
     mifid: str = ('https://registers.esma.europa.eu/solr/esma_registers_{db}_files/select?q=*'
-                  '&fq={date_column}:%5B{creation_date_from}T00:00:00Z+TO+{creation_date_to}T23:59:59Z%5D&wt=xml&indent=true&start=0&rows={limit}')
+                  '&fq={date_column}:%5B{creation_date_from}T00:00:00Z+TO+{creation_date_to}T23:59:59Z%5D'
+                  '&wt=xml&indent=true&start=0&rows={limit}&sort={date_column}+desc')
     fca_firds: str =  ('https://api.data.fca.org.uk/fca_data_firds_files?q=((file_type:FULINS)'
                        '%20AND%20(publication_date:[{creation_date_from}%20TO%20{creation_date_to}]))&from=0&size={limit}')

@@ -178,6 +178,10 @@ class EsmaDataLoader:
                     dwnld_df = dwnld_df
             
             list_dwndl_dfs.append(dwnld_df)
+
+        if not list_dwndl_dfs:
+            self.__logger.warning('No files found for the given criteria')
+            return pd.DataFrame()
             
         self.__logger.info('Process done!')
         return pd.concat(list_dwndl_dfs)
@@ -348,17 +352,16 @@ class EsmaDataLoader:
         mifid_file_list = mifid_file_list.loc[lambda x: x.file_type == file_type]
         file_name_explosion = mifid_file_list.file_name.str.extract(pattern_extract_ft)
         mifid_file_list = pd.concat([mifid_file_list, file_name_explosion], axis=1)
+
         mifid_file_list = mifid_file_list.loc[lambda x: x.cfi == cfi]
-        max_date = mifid_file_list.groupby('file_type').agg({'date': 'max'}).date.iloc[0]
 
-        if eqt:
-            mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == "Equity Instruments"]
-        else:
-            mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == "Non-Equity Instruments"]
+        instrument = "Equity Instruments" if eqt else "Non-Equity Instruments"
+        mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == instrument]
 
+        max_date = mifid_file_list["date"].max()
         return mifid_file_list.loc[lambda x: x.date == max_date]
-     
 
+     
 if __name__ == '__main__':
 
     dl = EsmaDataLoader()

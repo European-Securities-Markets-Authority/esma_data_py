@@ -60,7 +60,7 @@ class EsmaDataLoader:
         Fetches a list of MIFID files from specified ESMA databases filtered by creation or publication dates.
 
         Args:
-        db_list (list or str): List of database names to fetch files from. Valid databases are 'fitrs', 'firds', and 'dvcap'. Defaults to ['fitrs', 'firds', 'dvcap']. If a single string is provided, it is converted into a list.
+        db_list (list or str): List of database names to fetch files from. Valid databases are 'fitrs', 'firds', 'svcap' and 'dvcap'. Defaults to ['fitrs', 'firds', 'svcap', 'dvcap']. If a single string is provided, it is converted into a list.
 
         Returns:
         pd.DataFrame: A DataFrame aggregating the records from all specified databases, containing file details.

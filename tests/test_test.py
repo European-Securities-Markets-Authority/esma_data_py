@@ -55,6 +55,12 @@ class EdlTests(unittest.TestCase):
             test = self.edl.load_ssr_exempted_shares(today=True)
             self.assertTrue(isinstance(test, pd.DataFrame))
 
-                        
+        def test_load_svcap_file_list(self):
+            test = self.edl.load_mifid_file_list(datasets=['svcap'])
+            self.assertTrue(isinstance(test, pd.DataFrame))
+            self.assertFalse(test.empty)
+            self.assertIn('file_name', test.columns)
+            self.assertIn('download_link', test.columns)
+                  
 if __name__ == '__main__':
     unittest.main()

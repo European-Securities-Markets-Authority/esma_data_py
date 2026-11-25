@@ -54,13 +54,13 @@ class EsmaDataLoader:
         self.__logger = self.__utils.set_logger(name='EsmaDataLoader')
 
 
-    def load_mifid_file_list(self, datasets: List[str] = ['dvcap', 'fitrs', 'firds']):
+    def load_mifid_file_list(self, datasets: List[str] = ['svcap', 'dvcap', 'fitrs', 'firds']):
 
         """
         Fetches a list of MIFID files from specified ESMA databases filtered by creation or publication dates.
 
         Args:
-        db_list (list or str): List of database names to fetch files from. Valid databases are 'fitrs', 'firds', and 'dvcap'. Defaults to ['fitrs', 'firds', 'dvcap']. If a single string is provided, it is converted into a list.
+        db_list (list or str): List of database names to fetch files from. Valid databases are 'fitrs', 'firds', 'svcap' and 'dvcap'. Defaults to ['fitrs', 'firds', 'svcap', 'dvcap']. If a single string is provided, it is converted into a list.
 
         Returns:
         pd.DataFrame: A DataFrame aggregating the records from all specified databases, containing file details.
@@ -178,10 +178,13 @@ class EsmaDataLoader:
                     dwnld_df = dwnld_df
             
             list_dwndl_dfs.append(dwnld_df)
+
+        if not list_dwndl_dfs:
+            self.__logger.warning('No files found for the given criteria')
+            return pd.DataFrame()
             
         self.__logger.info('Process done!')
         return pd.concat(list_dwndl_dfs)
-
 
     
     def load_ssr_exempted_shares(self, today: bool = True):
@@ -275,7 +278,7 @@ class EsmaDataLoader:
         Retrieves a DataFrame of files for a specific MIFID dataset.
 
         Args:
-            dataset (str): The dataset name (e.g., 'fitrs', 'firds', or 'dvcap') to fetch the files for.
+            dataset (str): The dataset name (e.g., 'fitrs', 'firds', 'svcap' or 'dvcap') to fetch the files for.
 
         Returns:
             pd.DataFrame: A DataFrame containing the file data for the given dataset.
@@ -311,20 +314,23 @@ class EsmaDataLoader:
     def __get_latest_vcap_files(self):
 
         """
-        Retrieves the latest DVCAP (VCAP) files based on the most recent date.
+        Retrieves the latest SVCAP (VCAP) files based on the most recent date.
 
         Returns:
-            pd.DataFrame: A DataFrame containing the latest VCAP files.
+            pd.DataFrame: A DataFrame containing the latest SVCAP files.
         """
         
         pattern_extract_vcap = r'(?P<filetype>[A-Za-z]+)_(?P<date>\d{8})'
         
-        mifid_file_list = self.__get_files_single_df_mifid(u.Dataset.DVCAP.value)
+        mifid_file_list = self.__get_files_single_df_mifid(u.Dataset.SVCAP.value)
+        # Remove suspension files from the list 
+        mifid_file_list = mifid_file_list.loc[mifid_file_list.file_name.str.lower().str.endswith('.zip')]
         file_name_explosion = mifid_file_list.file_name.str.extract(pattern_extract_vcap)
         mifid_file_list = pd.concat([mifid_file_list, file_name_explosion], axis=1)
         max_date = max(mifid_file_list.date)
 
         return mifid_file_list.loc[lambda x: x.date == max_date]
+
     
     def __get_latest_fitrs_files(self, file_type: str, cfi: str, eqt: bool):
 
@@ -346,17 +352,16 @@ class EsmaDataLoader:
         mifid_file_list = mifid_file_list.loc[lambda x: x.file_type == file_type]
         file_name_explosion = mifid_file_list.file_name.str.extract(pattern_extract_ft)
         mifid_file_list = pd.concat([mifid_file_list, file_name_explosion], axis=1)
+
         mifid_file_list = mifid_file_list.loc[lambda x: x.cfi == cfi]
-        max_date = mifid_file_list.groupby('file_type').agg({'date': 'max'}).date.iloc[0]
 
-        if eqt:
-            mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == "Equity Instruments"]
-        else:
-            mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == "Non-Equity Instruments"]
+        instrument = "Equity Instruments" if eqt else "Non-Equity Instruments"
+        mifid_file_list = mifid_file_list.loc[lambda x: x.instrument_type == instrument]
 
+        max_date = mifid_file_list["date"].max()
         return mifid_file_list.loc[lambda x: x.date == max_date]
-     
 
+     
 if __name__ == '__main__':
 
     dl = EsmaDataLoader()
